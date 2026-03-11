@@ -1,0 +1,85 @@
+.ui-field {
+  display: grid;
+  gap: 0.4rem;
+  text-align: left;
+}
+
+.ui-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.ui-helper {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-secondary);
+}
+
+.ui-input,
+.ui-select {
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 45%, transparent);
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  background-color: color-mix(in srgb, var(--bg-color) 88%, white 12%);
+  color: inherit;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.ui-input:focus,
+.ui-select:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--color-secondary) 30%, transparent);
+}
+
+.ui-checkbox-row {
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ui-checkbox {
+  accent-color: var(--color-primary);
+  width: 1rem;
+  height: 1rem;
+}
+
+.ui-button {
+  border: 1px solid transparent;
+  border-radius: 0.6rem;
+  padding: 0.62rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    filter 0.2s ease;
+}
+
+.ui-button:hover {
+  filter: brightness(1.04);
+}
+
+.ui-button:active {
+  transform: translateY(1px);
+}
+
+.ui-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.ui-button-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.ui-button-secondary {
+  background-color: var(--color-secondary);
+  color: #101010;
+}
