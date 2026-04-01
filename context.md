@@ -11,4 +11,14 @@
 - utiliser les vars css : primary-color et secondary color définies dans index.css
 - utiliser tailwind pour le css !!!
 
+# navbar
 
+créer une navbar avec comme route: 
+- Collections
+- Stores
+- Zones
+- Users
+- Board
+- et un bouton logout
+
+cette navbar est un menu hamburger
