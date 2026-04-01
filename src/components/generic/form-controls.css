@@ -13,7 +13,7 @@
 .ui-helper {
   margin: 0;
   font-size: 0.8rem;
-  color: var(--color-secondary);
+  color: var(--color-error);
 }
 
 .ui-input,
