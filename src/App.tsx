@@ -12,6 +12,7 @@ import { useAuth } from "./contexts/AuthContext";
 import Navbar from "./components/navbar/Navbar";
 import Board from "./views/Board";
 import Collections from "./views/Collection/Collections";
+import CreateCollection from "./views/Collection/CreateCollection";
 import Form from "./views/Form/Form";
 import SuccessForm from "./views/Form/SuccessForm";
 import Stores from "./views/Store/Stores";
@@ -104,6 +105,7 @@ function App() {
           <Route index element={<Navigate to="/board" replace />} />
           <Route path="board" element={<Board />} />
           <Route path="collections" element={<Collections />} />
+          <Route path="collections/create" element={<CreateCollection />} />
           <Route path="stores" element={<Stores />} />
           <Route path="zones" element={<Zones />} />
           <Route path="users" element={<Users />} />
