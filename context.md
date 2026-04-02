@@ -12,90 +12,83 @@
     --color-secondary: #4aa8c9; définies dans index.css
 - utiliser tailwind pour le css !!!
 
-# stores
+# user
 
-dans Stores.tsx
-faire comme dans le wireframe ci joint.
-afficher la searchbar pour rechercher.
+la route login c'est identifiant via email et mot de passe 
 
-affichage des stores 
-récupérées via :
+et niveau api :
 
-### Get All Stores
-GET {{api_url}}/stores
+
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "password123"
+}
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc3NTEzNzgxMywiZXhwIjoxNzc1MjI0MjEzfQ.gfopOUneJ8KonN0Jb6FFlWeHwX7W0w239ssIncoT15U",
+  "user": {
+    "id": 1,
+    "lastName": "Admin",
+    "firstName": "Super",
+    "username": "adminsuper",
+    "birthdate": "1985-09-30T00:00:00.000Z",
+    "codePostal": "69003",
+    "email": "admin@example.com",
+    "isAdmin": true,
+    "type": "permanent"
+  }
+}
+
+il faut seter le token a ce moment là.
+je veux que tu set en cache les donnees utilisateurs via le AuthContext
+en cas de logout du remove tout ducache : token + data user.
+
+ensuite dans la navbar je veux quand on clic sur : 
+        <span className="text-base font-bold text-[var(--color-primary)]">
+          Restos du Coeur
+        </span>
+on soit redigirer vers la route board
+
+il me faut également un nouvel  item à côté de : 
+        <span className="text-base font-bold text-[var(--color-primary)]">
+          Restos du Coeur
+        </span>
+
+
+qui soit le nom + prenom du user
+
+et que si on clic dessus on aille vers la route User.tsx
+
+qui est un formulaire d'édition des données user.
+on doit pouvoir éditer : 
+lastname, firstname, codePostal, email
+
+qui sont des champs InputText sauf codePostal.
+Au clic que le bouton editer il faut appele r: 
+
+PUT {{api_url}}/users/1
+Content-Type: application/json
 Authorization: Bearer {{token}}
 
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Access-Control-Allow-Origin: http://localhost:5173
-Vary: Origin
-Access-Control-Allow-Credentials: true
-Content-Type: application/json; charset=utf-8
-Content-Length: 757
-ETag: W/"2f5-V41idsqyKCfFvISqZQ/7teu/jXw"
-Date: Thu, 02 Apr 2026 09:32:47 GMT
-Connection: close
-
-[
-  {
-    "id": 5,
-    "title": "Magasin Paris 15",
-    "zoneId": null,
-    "openingTime": "08:30",
-    "closingTime": "19:00",
-    "isOpenSunday": false,
-    "minVolunteers": 2,
-    "idealVolunteers": 5
-  },
-  {
-    "id": 7,
-    "title": "Magasin Paris 15",
-    "zoneId": null,
-    "openingTime": "08:30",
-    "closingTime": "19:00",
-    "isOpenSunday": false,
-    "minVolunteers": 2,
-    "idealVolunteers": 5
-  },
-  {
-    "id": 4,
-    "title": "Magasin Paris 15",
-    "zoneId": 1,
-    "openingTime": "08:30",
-    "closingTime": "19:00",
-    "isOpenSunday": false,
-    "minVolunteers": 2,
-    "idealVolunteers": 5
-  },
-  {
-    "id": 6,
-    "title": "Magasin Paris 15",
-    "zoneId": 1,
-    "openingTime": "08:30",
-    "closingTime": "19:00",
-    "isOpenSunday": false,
-    "minVolunteers": 2,
-    "idealVolunteers": 5
-  },
-  {
-    "id": 8,
-    "title": "Magasin Paris 15",
-    "zoneId": 1,
-    "openingTime": "08:30",
-    "closingTime": "19:00",
-    "isOpenSunday": false,
-    "minVolunteers": 2,
-    "idealVolunteers": 5
-  }
-]
+{
+  "lastName": "Dupont",
+  "firstName": "Jean-Pierre",
+  "birthdate": "1990-05-14",
+  "codePostal": "75012",
+  "email": "jean.dupont@example.com",
+  "phoneNumber": "0612345678",
+  "isActive": true,
+  "isAdmin": true,
+  "type": "occasional"
+}
 
 
-n'afficher que le title
 
 
-au clic sur le title 
 
-rediriger vers Store.tsx
 
-au clic sur Créer  rediriger vers CreateStore.tsx
+
 

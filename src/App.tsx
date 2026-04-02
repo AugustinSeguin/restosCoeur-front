@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import {
   BrowserRouter,
-  Link,
   Navigate,
   Outlet,
   Route,
@@ -20,9 +19,12 @@ import CreateZone from "./views/Zone/CreateZone";
 import CreateStore from "./views/Store/CreateStore";
 import StoreEdit from "./views/Store/Store";
 import Stores from "./views/Store/Stores";
-import Users from "./views/Users";
+import CreateUser from "./views/User/CreateUser";
+import UserEdit from "./views/User/User";
+import Users from "./views/User/Users";
 import Zone from "./views/Zone/Zone";
 import Zones from "./views/Zone/Zones";
+import LoginPage from "./views/Login";
 import "./App.css";
 
 const FormPathRedirect = () => {
@@ -33,37 +35,6 @@ const FormPathRedirect = () => {
   }
 
   return <Navigate to={`/form?collectionId=${id}`} replace />;
-};
-
-const LoginPage = () => {
-  const { isAuthenticated, login } = useAuth();
-
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
-
-  return (
-    <main className="grid min-h-screen place-items-center px-5 py-8">
-      <div className="grid w-full max-w-md gap-4 rounded-md border-2 border-[var(--color-primary)] bg-[color-mix(in_srgb,var(--bg-color)_85%,white_15%)] p-6 text-center">
-        <h1 className="m-0 text-3xl font-semibold text-[var(--color-primary)]">
-          Connexion
-        </h1>
-        <p className="m-0 text-[var(--color-text)]">
-          Page de login temporaire.
-        </p>
-        <button
-          type="button"
-          onClick={() => login("demo-token")}
-          className="rounded-md bg-[var(--color-primary)] px-4 py-2 font-medium text-white"
-        >
-          Se connecter
-        </button>
-        <p className="m-0">
-          <Link to="/form?collectionId=1">Aller au formulaire public</Link>
-        </p>
-      </div>
-    </main>
-  );
 };
 
 const ProtectedLayout = () => {
@@ -119,6 +90,8 @@ function App() {
           <Route path="zones/create" element={<CreateZone />} />
           <Route path="zones/:id" element={<Zone />} />
           <Route path="users" element={<Users />} />
+          <Route path="users/create" element={<CreateUser />} />
+          <Route path="users/:id" element={<UserEdit />} />
         </Route>
         <Route
           path="*"

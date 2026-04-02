@@ -9,7 +9,7 @@ export interface User {
   lastName: string;
   firstName: string;
   username: string;
-  birthdate: Date;
+  birthdate: string;
   codePostal: string;
   email: string | null;
   phoneNumber: string;
@@ -33,8 +33,8 @@ export interface AuthContextType {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
-  login: (token: string) => void;
+  login: (token: string, user?: User) => void;
   logout: () => void;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
   fetchUserData: () => Promise<void>;
 }

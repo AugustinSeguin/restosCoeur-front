@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Button } from "../generic";
+import { useAuth } from "../../contexts/AuthContext";
 
 type NavbarProps = {
   onLogout: () => void;
@@ -16,13 +17,28 @@ const navItems = [
 
 function Navbar({ onLogout }: Readonly<NavbarProps>) {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <header className="sticky top-0 z-30 w-full border-b border-[var(--color-primary)] bg-[var(--bg-color)]">
       <div className="mx-auto flex w-full items-center justify-between px-5 py-3">
-        <span className="text-base font-bold text-[var(--color-primary)]">
-          Restos du Coeur
-        </span>
+        <div className="flex items-center gap-4">
+          <Link
+            to="/board"
+            className="text-base font-bold text-[var(--color-primary)] no-underline"
+          >
+            Restos du Coeur
+          </Link>
+
+          {user ? (
+            <Link
+              to={`/users/${user.id}`}
+              className="text-sm font-semibold text-[var(--color-primary)] no-underline hover:underline"
+            >
+              {user.firstName} {user.lastName}
+            </Link>
+          ) : null}
+        </div>
 
         <button
           type="button"
@@ -58,6 +74,15 @@ function Navbar({ onLogout }: Readonly<NavbarProps>) {
 
       {isOpen ? (
         <nav className="grid gap-2 border-t border-[var(--color-primary)] px-5 py-3 lg:hidden">
+          {user ? (
+            <Link
+              to={`/users/${user.id}`}
+              onClick={() => setIsOpen(false)}
+              className="rounded-md px-3 py-2 text-sm font-medium text-[var(--color-primary)]"
+            >
+              {user.firstName} {user.lastName}
+            </Link>
+          ) : null}
           {navItems.map((item) => (
             <NavLink
               key={item.to}

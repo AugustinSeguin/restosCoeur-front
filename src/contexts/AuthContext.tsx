@@ -9,31 +9,59 @@ import {
 import type { AuthContextType, User } from "../types/User";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AUTH_TOKEN_KEY = "authToken";
+const AUTH_USER_KEY = "authUser";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const savedToken = localStorage.getItem("authToken");
+    const savedToken = localStorage.getItem(AUTH_TOKEN_KEY);
+    const savedUser = localStorage.getItem(AUTH_USER_KEY);
+
     if (savedToken) {
       setToken(savedToken);
     }
+
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser) as User);
+      } catch {
+        localStorage.removeItem(AUTH_USER_KEY);
+      }
+    }
   }, []);
 
-  const login = (newToken: string) => {
-    localStorage.setItem("authToken", newToken);
+  const setCachedUser = (newUser: User | null) => {
+    if (!newUser) {
+      localStorage.removeItem(AUTH_USER_KEY);
+      setUser(null);
+      return;
+    }
+
+    localStorage.setItem(AUTH_USER_KEY, JSON.stringify(newUser));
+    setUser(newUser);
+  };
+
+  const login = (newToken: string, newUser?: User) => {
+    localStorage.setItem(AUTH_TOKEN_KEY, newToken);
     setToken(newToken);
+
+    if (newUser) {
+      setCachedUser(newUser);
+    }
   };
 
   const logout = () => {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(AUTH_USER_KEY);
     setToken(null);
     setUser(null);
   };
 
   const fetchUserData = async () => {
-    // Fetch user data implementation
+    return;
   };
 
   const isAuthenticated = !!token;
@@ -45,7 +73,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       login,
       logout,
       user,
-      setUser,
+      setUser: setCachedUser,
       fetchUserData,
     }),
     [token, isAuthenticated, user],
