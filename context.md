@@ -12,28 +12,21 @@
     --color-secondary: #4aa8c9; définies dans index.css
 - utiliser tailwind pour le css !!!
 
-# collectes
+# zones
 
-quand je clique sur une collecte : 
+dans Zones.tsx au clic sur :
           <h2 className="m-0 text-lg font-semibold text-[var(--color-text)] sm:text-2xl">
-                {collection.title}
+                {zone.title}
               </h2>
-dans Collections.tsx
+              redirigé sur Zone.tsx
+               via l'id.
 
-je veux être redirigé vers Collection.tsx
+appeler l'api comme suit : 
 
-qui correspond à un formulaire d'édition
-
-Visuellement il doit etre pareil que CreateCollection.tsx
-
-sauf qu'il faut appeler l'api : 
-
-### Get Collection by ID
-GET {{api_url}}/collections/1
+GET {{api_url}}/zones/1
 Authorization: Bearer {{token}}
 
-
-avec comme réponses : 
+response : 
 
 HTTP/1.1 200 OK
 X-Powered-By: Express
@@ -41,52 +34,82 @@ Access-Control-Allow-Origin: http://localhost:5173
 Vary: Origin
 Access-Control-Allow-Credentials: true
 Content-Type: application/json; charset=utf-8
-Content-Length: 481
-ETag: W/"1e1-0Uh4Sx80Y7ArsIQuPazKxsnX5rw"
-Date: Thu, 02 Apr 2026 08:10:05 GMT
+Content-Length: 200
+ETag: W/"c8-hb3P92taZIBoFNT0cScIK0qIIZc"
+Date: Thu, 02 Apr 2026 09:05:27 GMT
 Connection: close
 
 {
   "id": 1,
-  "title": "Collecte Mars 2026",
-  "isActive": true,
-  "formUrl": "https://forms.example.com/collecte1",
-  "slots": [
-    {
-      "id": 1,
-      "startAt": "2026-03-15T09:00:00.000Z",
-      "endAt": "2026-03-15T12:00:00.000Z",
-      "collectionId": 1
-    },
-    {
-      "id": 2,
-      "startAt": "2026-03-15T09:00:00.000Z",
-      "endAt": "2026-03-15T12:00:00.000Z",
-      "collectionId": 1
-    },
-    {
-      "id": 3,
-      "startAt": "2026-03-15T09:00:00.000Z",
-      "endAt": "2026-03-15T12:00:00.000Z",
-      "collectionId": 1
-    }
-  ],
-  "zones": [
+  "title": "Zone Nord",
+  "stores": [],
+  "collections": [
     {
       "collectionId": 1,
       "zoneId": 1,
-      "zone": {
+      "collection": {
         "id": 1,
-        "title": "Zone Nord"
+        "title": "aaaaaaaaa",
+        "isActive": true,
+        "formUrl": "https://forms.example.com/collecte1-updated"
       }
     }
   ]
 }
 
-il faut que les inputs est comme values les values de la réponses de l'api : 
+Zone.tsx est un form d'édition comme ca a été fait dans Collection.tsx.
+inspire en toi visuellement.
 
-GET {{api_url}}/collections/1
+je dois pouvoir supprimer tes associations store - zone
+
+au clic sur le bouton éditer ca doit appeler : 
+
+### Update Zone
+PUT {{api_url}}/zones/1
+Content-Type: application/json
 Authorization: Bearer {{token}}
 
-je te redonne le wireframe de create. mais la c'est édition
+{
+  "title": "Zone Nord Updated",
+  "storeIds": [2, 4, 5]
+}
 
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Access-Control-Allow-Origin: http://localhost:5173
+Vary: Origin
+Access-Control-Allow-Credentials: true
+Content-Type: application/json; charset=utf-8
+Content-Length: 356
+ETag: W/"164-sc/KQ7uSL8/9r4ZYCseAkAlKQPw"
+Date: Thu, 02 Apr 2026 09:07:35 GMT
+Connection: close
+
+{
+  "id": 1,
+  "title": "Zone Nord Updated",
+  "stores": [
+    {
+      "id": 2,
+      "title": "Magasin Paris 15",
+      "zoneId": 1,
+      "openingTime": "08:30",
+      "closingTime": "19:00",
+      "isOpenSunday": true,
+      "minVolunteers": 2,
+      "idealVolunteers": 5
+    }
+  ],
+  "collections": [
+    {
+      "collectionId": 1,
+      "zoneId": 1,
+      "collection": {
+        "id": 1,
+        "title": "aaaaaaaaa",
+        "isActive": true,
+        "formUrl": "https://forms.example.com/collecte1-updated"
+      }
+    }
+  ]
+}
