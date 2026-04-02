@@ -12,21 +12,18 @@
     --color-secondary: #4aa8c9; définies dans index.css
 - utiliser tailwind pour le css !!!
 
-# zones
+# stores
 
-dans Zones.tsx au clic sur :
-          <h2 className="m-0 text-lg font-semibold text-[var(--color-text)] sm:text-2xl">
-                {zone.title}
-              </h2>
-              redirigé sur Zone.tsx
-               via l'id.
+dans Stores.tsx
+faire comme dans le wireframe ci joint.
+afficher la searchbar pour rechercher.
 
-appeler l'api comme suit : 
+affichage des stores 
+récupérées via :
 
-GET {{api_url}}/zones/1
+### Get All Stores
+GET {{api_url}}/stores
 Authorization: Bearer {{token}}
-
-response : 
 
 HTTP/1.1 200 OK
 X-Powered-By: Express
@@ -34,82 +31,71 @@ Access-Control-Allow-Origin: http://localhost:5173
 Vary: Origin
 Access-Control-Allow-Credentials: true
 Content-Type: application/json; charset=utf-8
-Content-Length: 200
-ETag: W/"c8-hb3P92taZIBoFNT0cScIK0qIIZc"
-Date: Thu, 02 Apr 2026 09:05:27 GMT
+Content-Length: 757
+ETag: W/"2f5-V41idsqyKCfFvISqZQ/7teu/jXw"
+Date: Thu, 02 Apr 2026 09:32:47 GMT
 Connection: close
 
-{
-  "id": 1,
-  "title": "Zone Nord",
-  "stores": [],
-  "collections": [
-    {
-      "collectionId": 1,
-      "zoneId": 1,
-      "collection": {
-        "id": 1,
-        "title": "aaaaaaaaa",
-        "isActive": true,
-        "formUrl": "https://forms.example.com/collecte1-updated"
-      }
-    }
-  ]
-}
+[
+  {
+    "id": 5,
+    "title": "Magasin Paris 15",
+    "zoneId": null,
+    "openingTime": "08:30",
+    "closingTime": "19:00",
+    "isOpenSunday": false,
+    "minVolunteers": 2,
+    "idealVolunteers": 5
+  },
+  {
+    "id": 7,
+    "title": "Magasin Paris 15",
+    "zoneId": null,
+    "openingTime": "08:30",
+    "closingTime": "19:00",
+    "isOpenSunday": false,
+    "minVolunteers": 2,
+    "idealVolunteers": 5
+  },
+  {
+    "id": 4,
+    "title": "Magasin Paris 15",
+    "zoneId": 1,
+    "openingTime": "08:30",
+    "closingTime": "19:00",
+    "isOpenSunday": false,
+    "minVolunteers": 2,
+    "idealVolunteers": 5
+  },
+  {
+    "id": 6,
+    "title": "Magasin Paris 15",
+    "zoneId": 1,
+    "openingTime": "08:30",
+    "closingTime": "19:00",
+    "isOpenSunday": false,
+    "minVolunteers": 2,
+    "idealVolunteers": 5
+  },
+  {
+    "id": 8,
+    "title": "Magasin Paris 15",
+    "zoneId": 1,
+    "openingTime": "08:30",
+    "closingTime": "19:00",
+    "isOpenSunday": false,
+    "minVolunteers": 2,
+    "idealVolunteers": 5
+  }
+]
 
-Zone.tsx est un form d'édition comme ca a été fait dans Collection.tsx.
-inspire en toi visuellement.
 
-je dois pouvoir supprimer tes associations store - zone
+n'afficher que le title
 
-au clic sur le bouton éditer ca doit appeler : 
 
-### Update Zone
-PUT {{api_url}}/zones/1
-Content-Type: application/json
-Authorization: Bearer {{token}}
+au clic sur le title 
 
-{
-  "title": "Zone Nord Updated",
-  "storeIds": [2, 4, 5]
-}
+rediriger vers Store.tsx
 
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Access-Control-Allow-Origin: http://localhost:5173
-Vary: Origin
-Access-Control-Allow-Credentials: true
-Content-Type: application/json; charset=utf-8
-Content-Length: 356
-ETag: W/"164-sc/KQ7uSL8/9r4ZYCseAkAlKQPw"
-Date: Thu, 02 Apr 2026 09:07:35 GMT
-Connection: close
+au clic sur Créer  rediriger vers CreateStore.tsx
 
-{
-  "id": 1,
-  "title": "Zone Nord Updated",
-  "stores": [
-    {
-      "id": 2,
-      "title": "Magasin Paris 15",
-      "zoneId": 1,
-      "openingTime": "08:30",
-      "closingTime": "19:00",
-      "isOpenSunday": true,
-      "minVolunteers": 2,
-      "idealVolunteers": 5
-    }
-  ],
-  "collections": [
-    {
-      "collectionId": 1,
-      "zoneId": 1,
-      "collection": {
-        "id": 1,
-        "title": "aaaaaaaaa",
-        "isActive": true,
-        "formUrl": "https://forms.example.com/collecte1-updated"
-      }
-    }
-  ]
-}

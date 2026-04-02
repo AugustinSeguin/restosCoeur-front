@@ -17,6 +17,8 @@ import CreateCollection from "./views/Collection/CreateCollection";
 import Form from "./views/Form/Form";
 import SuccessForm from "./views/Form/SuccessForm";
 import CreateZone from "./views/Zone/CreateZone";
+import CreateStore from "./views/Store/CreateStore";
+import StoreEdit from "./views/Store/Store";
 import Stores from "./views/Store/Stores";
 import Users from "./views/Users";
 import Zone from "./views/Zone/Zone";
@@ -111,6 +113,8 @@ function App() {
           <Route path="collections/create" element={<CreateCollection />} />
           <Route path="collections/:id" element={<Collection />} />
           <Route path="stores" element={<Stores />} />
+          <Route path="stores/create" element={<CreateStore />} />
+          <Route path="stores/:id" element={<StoreEdit />} />
           <Route path="zones" element={<Zones />} />
           <Route path="zones/create" element={<CreateZone />} />
           <Route path="zones/:id" element={<Zone />} />
