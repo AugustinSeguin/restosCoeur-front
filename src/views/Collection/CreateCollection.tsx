@@ -206,8 +206,7 @@ const CreateCollection = () => {
             type="button"
             className="h-11 w-full border border-[var(--color-primary)] bg-white px-4 text-sm text-[var(--color-primary)] sm:w-auto"
           >
-            Importer les
-            bénévoles réguliers
+            Importer les bénévoles réguliers
           </Button>
         </div>
       </div>
@@ -355,7 +354,14 @@ const CreateCollection = () => {
         </p>
       ) : null}
 
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-3">
+        <Button
+          type="button"
+          className="border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
+          onClick={() => navigate("/collections")}
+        >
+          Retour
+        </Button>
         <Button
           type="button"
           onClick={() => void handleCreate()}

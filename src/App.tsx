@@ -11,6 +11,7 @@ import {
 import { useAuth } from "./contexts/AuthContext";
 import Navbar from "./components/navbar/Navbar";
 import Board from "./views/Board";
+import Collection from "./views/Collection/Collection";
 import Collections from "./views/Collection/Collections";
 import CreateCollection from "./views/Collection/CreateCollection";
 import Form from "./views/Form/Form";
@@ -106,6 +107,7 @@ function App() {
           <Route path="board" element={<Board />} />
           <Route path="collections" element={<Collections />} />
           <Route path="collections/create" element={<CreateCollection />} />
+          <Route path="collections/:id" element={<Collection />} />
           <Route path="stores" element={<Stores />} />
           <Route path="zones" element={<Zones />} />
           <Route path="users" element={<Users />} />

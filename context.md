@@ -14,93 +14,79 @@
 
 # collectes
 
-quand je clique sur le bouton Créer de Collections.tsx je dois être rediriger vers CreateCollection.tsx
-en PJ le wireframe.
+quand je clique sur une collecte : 
+          <h2 className="m-0 text-lg font-semibold text-[var(--color-text)] sm:text-2xl">
+                {collection.title}
+              </h2>
+dans Collections.tsx
 
-utilie TextInput pour le choix du titre.
-la checkbox pour active : par défaut cochée.
-Zones : 
-champs recherches avec select list : 
-tu dois appeler l'api : 
-GET {{api_url}}/zones
+je veux être redirigé vers Collection.tsx
+
+qui correspond à un formulaire d'édition
+
+Visuellement il doit etre pareil que CreateCollection.tsx
+
+sauf qu'il faut appeler l'api : 
+
+### Get Collection by ID
+GET {{api_url}}/collections/1
 Authorization: Bearer {{token}}
 
-reponse : HTTP/1.1 200 OK
+
+avec comme réponses : 
+
+HTTP/1.1 200 OK
 X-Powered-By: Express
 Access-Control-Allow-Origin: http://localhost:5173
 Vary: Origin
 Access-Control-Allow-Credentials: true
 Content-Type: application/json; charset=utf-8
-Content-Length: 30
-ETag: W/"1e-+befmEaHEkrGbRF9g48N82tQDWI"
-Date: Thu, 02 Apr 2026 07:56:04 GMT
-Connection: close
-
-[
-  {
-    "id": 1,
-    "title": "Zone Nord"
-  }
-]
-
-la select list affiche que le title de la zone
-
-et on selectionne l'id
-
-pour les créneaux au clic sur le bouton créer un créneau : 
-il faut un date time picker pour selectionner le jour puis l'heure
-de début et un autre date time picker pour selectionner le jour puis l'heure de fin
-
-au clic sur le bouton créer appeler dans l'ordre : 
-
-POST {{api_url}}/collections
-Content-Type: application/json
-Authorization: Bearer {{token}}
-
-{
-  "title": "Collecte Mars 2026",
-  "isActive": true,
-  "formUrl": "https://forms.example.com/collecte1"
-}
-
-si ca retourne 
-
-HTTP/1.1 201 Created
-X-Powered-By: Express
-Access-Control-Allow-Origin: http://localhost:5173
-Vary: Origin
-Access-Control-Allow-Credentials: true
-Content-Type: application/json; charset=utf-8
-Content-Length: 112
-ETag: W/"70-DYSSGeoh41B1qfgH5otZa79kmBA"
-Date: Thu, 02 Apr 2026 07:58:34 GMT
+Content-Length: 481
+ETag: W/"1e1-0Uh4Sx80Y7ArsIQuPazKxsnX5rw"
+Date: Thu, 02 Apr 2026 08:10:05 GMT
 Connection: close
 
 {
-  "id": 2,
+  "id": 1,
   "title": "Collecte Mars 2026",
   "isActive": true,
   "formUrl": "https://forms.example.com/collecte1",
-  "users": []
+  "slots": [
+    {
+      "id": 1,
+      "startAt": "2026-03-15T09:00:00.000Z",
+      "endAt": "2026-03-15T12:00:00.000Z",
+      "collectionId": 1
+    },
+    {
+      "id": 2,
+      "startAt": "2026-03-15T09:00:00.000Z",
+      "endAt": "2026-03-15T12:00:00.000Z",
+      "collectionId": 1
+    },
+    {
+      "id": 3,
+      "startAt": "2026-03-15T09:00:00.000Z",
+      "endAt": "2026-03-15T12:00:00.000Z",
+      "collectionId": 1
+    }
+  ],
+  "zones": [
+    {
+      "collectionId": 1,
+      "zoneId": 1,
+      "zone": {
+        "id": 1,
+        "title": "Zone Nord"
+      }
+    }
+  ]
 }
 
+il faut que les inputs est comme values les values de la réponses de l'api : 
 
-récupérer l'id : 
-puis appeler pour chaque créneaux ajouter :  cette route : 
-
-@collectionId = 1
-
-### Create Slot
-POST {{api_url}}/slots
-Content-Type: application/json
+GET {{api_url}}/collections/1
 Authorization: Bearer {{token}}
 
-{
-  "startAt": "2026-03-15T09:00:00Z",
-  "endAt": "2026-03-15T12:00:00Z",
-  "collectionId": {{collectionId}}
-}
-
-enfin, en cas de succès global de toutes ces actions (appels API) retourner à la page collections.tsx
-
+je te redonne le wireframe de create. mais la c'est édition
 

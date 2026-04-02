@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/axiosConfig";
 import { Button, TextInput } from "../../components/generic";
 import { useAuth } from "../../contexts/AuthContext";
@@ -119,9 +119,14 @@ const Collections = () => {
               key={collection.id}
               className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-xl px-1 py-1"
             >
-              <h2 className="m-0 text-lg font-semibold text-[var(--color-text)] sm:text-2xl">
-                {collection.title}
-              </h2>
+              <Link
+                to={`/collections/${collection.id}`}
+                className="w-fit text-left no-underline"
+              >
+                <h2 className="m-0 text-lg font-semibold text-[var(--color-text)] sm:text-2xl">
+                  {collection.title}
+                </h2>
+              </Link>
 
               <Button
                 type="button"

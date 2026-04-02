@@ -5,6 +5,7 @@ export type Slot = {
 };
 
 export type SlotFormData = {
+  id?: number;
   startDate: string;
   startTime: string;
   endDate: string;
