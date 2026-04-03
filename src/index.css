@@ -6,6 +6,10 @@
   --color-error: #c62828;
   --bg-color: #f3f3f3;
   --color-text: #111;
+  --color-green: #3e9e43;
+  --color-red: #c95b5b;
+  --color-warning: #f5900c;
+
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

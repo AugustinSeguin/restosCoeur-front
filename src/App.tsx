@@ -9,7 +9,8 @@ import {
 } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import Navbar from "./components/navbar/Navbar";
-import Board from "./views/Board";
+import Board from "./views/boards/Board";
+import Boards from "./views/boards/Boards";
 import Collection from "./views/Collection/Collection";
 import Collections from "./views/Collection/Collections";
 import CreateCollection from "./views/Collection/CreateCollection";
@@ -79,7 +80,8 @@ function App() {
           }
         >
           <Route index element={<Navigate to="/board" replace />} />
-          <Route path="board" element={<Board />} />
+          <Route path="board" element={<Boards />} />
+          <Route path="board/:id" element={<Board />} />
           <Route path="collections" element={<Collections />} />
           <Route path="collections/create" element={<CreateCollection />} />
           <Route path="collections/:id" element={<Collection />} />
