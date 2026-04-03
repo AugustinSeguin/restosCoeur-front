@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/axiosConfig";
-import SearchBar from "../../components/searchBar/SearchBar";
 import { useAuth } from "../../contexts/AuthContext";
 import type { Collection } from "../../types/Collection";
 import { TextInput } from "../../components/generic";
@@ -69,7 +68,6 @@ const Boards = () => {
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}
         />
- 
       </div>
       {errorMessage ? (
         <p className="m-0 rounded-lg border border-[var(--color-error)]/50 bg-[var(--color-error)]/10 px-3 py-2 text-sm text-[var(--color-error)]">
@@ -82,7 +80,7 @@ const Boards = () => {
           Chargement des collectes...
         </p>
       ) : (
-         <div className="grid gap-4 pt-2">
+        <div className="grid gap-4 pt-2">
           {filteredCollections.map((collection) => (
             <article
               key={collection.id}

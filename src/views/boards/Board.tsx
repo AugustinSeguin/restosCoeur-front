@@ -44,7 +44,7 @@ type BoardCollection = Collection & {
   slots: SlotWithStores[];
 };
 
-const formatSlotLabel = (slot: SlotWithStores, index: number) => {
+const formatSlotLabel = (slot: SlotWithStores) => {
   const start = new Date(slot.startAt);
   const end = new Date(slot.endAt);
   const date = start.toLocaleDateString("fr-FR", {
@@ -76,6 +76,7 @@ const Board = () => {
   const [selectedStores, setSelectedStores] = useState<Record<string, string>>(
     {},
   );
+  const [selectedStoreFilter, setSelectedStoreFilter] = useState<string>("");
 
   const collectionId = useMemo(() => Number(id), [id]);
 
@@ -147,6 +148,35 @@ const Board = () => {
     return map;
   }, [board]);
 
+  const availableStores = useMemo<SelectOption[]>(() => {
+    const stores = new Map<number, string>();
+
+    for (const slot of board?.slots ?? []) {
+      for (const store of slot.openStores) {
+        stores.set(store.id, store.title);
+      }
+    }
+
+    return [
+      { label: "Tous les magasins", value: "" },
+      ...Array.from(stores.entries()).map(([storeId, title]) => ({
+        label: title,
+        value: String(storeId),
+      })),
+    ];
+  }, [board]);
+
+  const filteredUsers = useMemo(() => {
+    if (!board || !selectedStoreFilter) {
+      return board?.users ?? [];
+    }
+
+    const storeId = Number(selectedStoreFilter);
+    return board.users.filter((user) =>
+      user.assignments.some((assignment) => assignment.storeId === storeId),
+    );
+  }, [board, selectedStoreFilter]);
+
   const updateSelectedStore = (
     userId: number,
     slotId: number,
@@ -178,31 +208,41 @@ const Board = () => {
           selectedStores[keyForSelection(user.id, slot.id)] ?? "",
         );
 
-        if (!selectedStoreId) {
-          continue;
-        }
-
         const existing = user.assignments.find(
           (assignment) => assignment.slotId === slot.id,
         );
 
-        if (existing) {
-          const payload: UpdateAssignmentPayload = {
-            newUserId: user.id,
-            newSlotId: slot.id,
-            newStoreId: selectedStoreId,
-            newCollectionId: board.id,
-          };
-
-          await api.put(
-            `/assignments/${existing.collectionId}/${existing.userId}/${existing.slotId}/${existing.storeId}`,
-            payload,
-            {
+        if (!selectedStoreId) {
+          if (existing) {
+            await api.delete("/assignments", {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
+              data: {
+                userId: user.id,
+                slotId: slot.id,
+                storeId: existing.storeId,
+                collectionId: board.id,
+              },
+            });
+          }
+          continue;
+        }
+
+        if (existing) {
+          const payload: UpdateAssignmentPayload = {
+            userId: user.id,
+            slotId: slot.id,
+            storeId: existing.storeId,
+            collectionId: board.id,
+            newStoreId: selectedStoreId,
+          };
+
+          await api.put("/assignments", payload, {
+            headers: {
+              Authorization: `Bearer ${token}`,
             },
-          );
+          });
         } else {
           const payload: CreateAssignmentPayload = {
             userId: user.id,
@@ -245,6 +285,15 @@ const Board = () => {
         </h1>
       </header>
 
+      <div className="w-full sm:w-48">
+        <SelectList
+          label="Filtrer par magasin"
+          options={availableStores}
+          value={selectedStoreFilter}
+          onChange={(event) => setSelectedStoreFilter(event.target.value)}
+        />
+      </div>
+
       {errorMessage ? (
         <p className="m-0 rounded-lg border border-[var(--color-error)]/50 bg-[var(--color-error)]/10 px-3 py-2 text-sm text-[var(--color-error)]">
           {errorMessage}
@@ -260,12 +309,12 @@ const Board = () => {
                   <th className="w-52 border border-[var(--color-secondary)]/40 bg-[var(--color-secondary)]/10 px-3 py-3 text-left text-sm font-semibold text-[var(--color-primary)]">
                     Bénévole
                   </th>
-                  {board.slots.map((slot, index) => (
+                  {board.slots.map((slot) => (
                     <th
                       key={slot.id}
                       className="w-56 border border-[var(--color-secondary)]/40 bg-[var(--color-secondary)]/10 px-3 py-3 text-left text-sm font-semibold text-[var(--color-primary)]"
                     >
-                      {formatSlotLabel(slot, index)}
+                      {formatSlotLabel(slot)}
                     </th>
                   ))}
                   <th className="w-36 border border-[var(--color-secondary)]/40 bg-[var(--color-secondary)]/10 px-3 py-3 text-left text-sm font-semibold text-[var(--color-primary)]">
@@ -275,7 +324,7 @@ const Board = () => {
               </thead>
 
               <tbody>
-                {board.users.map((user) => (
+                {filteredUsers.map((user) => (
                   <tr key={user.id}>
                     <td className="border border-[var(--color-secondary)]/35 px-3 py-2 align-top text-sm font-medium text-[var(--color-text)]">
                       {user.firstName} {user.lastName}
@@ -311,6 +360,7 @@ const Board = () => {
                                   event.target.value,
                                 )
                               }
+                              noAutoSelect
                             />
                           ) : null}
                         </td>

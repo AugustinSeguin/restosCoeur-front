@@ -37,6 +37,14 @@ const CreateZone = () => {
     [stores, selectedStoreIds],
   );
 
+  useEffect(() => {
+    if (selectedStoreValue || storeOptions.length === 0) {
+      return;
+    }
+
+    setSelectedStoreValue(storeOptions[0].value);
+  }, [selectedStoreValue, storeOptions]);
+
   const loadStores = useCallback(async () => {
     if (!token) {
       return;
@@ -74,11 +82,6 @@ const CreateZone = () => {
   const handleCreate = async () => {
     if (!title.trim()) {
       setErrorMessage("Le titre de la zone est requis.");
-      return;
-    }
-
-    if (selectedStoreIds.length === 0) {
-      setErrorMessage("Au moins un magasin doit être sélectionné.");
       return;
     }
 

@@ -22,8 +22,9 @@ export type CreateAssignmentPayload = {
 };
 
 export type UpdateAssignmentPayload = {
-  newUserId: number;
-  newSlotId: number;
+  userId: number;
+  slotId: number;
+  storeId: number;
+  collectionId: number;
   newStoreId: number;
-  newCollectionId: number;
 };

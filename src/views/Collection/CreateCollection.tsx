@@ -55,6 +55,14 @@ const CreateCollection = () => {
     [zones, selectedZoneIds],
   );
 
+  useEffect(() => {
+    if (selectedZoneValue || zoneOptions.length !== 1) {
+      return;
+    }
+
+    setSelectedZoneValue(zoneOptions[0].value);
+  }, [selectedZoneValue, zoneOptions]);
+
   const loadZones = useCallback(async () => {
     if (!token) {
       return;
@@ -124,11 +132,6 @@ const CreateCollection = () => {
       return;
     }
 
-    if (slots.length === 0) {
-      setErrorMessage("Au moins un créneau est requis.");
-      return;
-    }
-
     setIsSubmitting(true);
     setErrorMessage("");
 
@@ -150,31 +153,33 @@ const CreateCollection = () => {
 
       const collectionId = collectionResponse.data.id;
 
-      // 2. Create slots
-      const slotPromises = slots.map((slot) => {
-        const startAt = new Date(
-          `${slot.startDate}T${slot.startTime}:00Z`,
-        ).toISOString();
-        const endAt = new Date(
-          `${slot.endDate}T${slot.endTime}:00Z`,
-        ).toISOString();
+      // 2. Create slots only when at least one slot exists
+      if (slots.length > 0) {
+        const slotPromises = slots.map((slot) => {
+          const startAt = new Date(
+            `${slot.startDate}T${slot.startTime}:00Z`,
+          ).toISOString();
+          const endAt = new Date(
+            `${slot.endDate}T${slot.endTime}:00Z`,
+          ).toISOString();
 
-        return api.post<Slot>(
-          "/slots",
-          {
-            startAt,
-            endAt,
-            collectionId,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
+          return api.post<Slot>(
+            "/slots",
+            {
+              startAt,
+              endAt,
+              collectionId,
             },
-          },
-        );
-      });
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          );
+        });
 
-      await Promise.all(slotPromises);
+        await Promise.all(slotPromises);
+      }
 
       // 3. Navigate back to collections
       navigate("/collections", { replace: true });
@@ -227,14 +232,12 @@ const CreateCollection = () => {
         {selectedZones.length > 0 ? (
           <div className="flex flex-wrap gap-2">
             {selectedZones.map((zone) => (
-              <button
+              <p
                 key={zone.id}
-                type="button"
-                onClick={() => removeZone(zone.id)}
-                className="rounded-lg border border-[var(--color-primary)] bg-white px-3 py-1 text-sm text-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary)]/10"
+                className="m-0 rounded-lg border-2 border-[var(--color-primary)] bg-white px-3 py-1 text-sm text-[var(--color-primary)]"
               >
                 {zone.title}
-              </button>
+              </p>
             ))}
           </div>
         ) : null}
@@ -365,7 +368,7 @@ const CreateCollection = () => {
         <Button
           type="button"
           onClick={() => void handleCreate()}
-          disabled={isSubmitting || !title.trim() || slots.length === 0}
+          disabled={isSubmitting || !title.trim()}
           className="border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
         >
           {isSubmitting ? "Création..." : "Créer"}

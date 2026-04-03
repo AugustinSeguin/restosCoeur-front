@@ -226,3 +226,8 @@ en fonction si on a déjà affectation (assignemnt)
 
 créer le type assignemnt
 
+
+
+je veux pouvoir editer une collecte sans zone ni créneau
+je veux pouvoir créer une zone sans magasin
+

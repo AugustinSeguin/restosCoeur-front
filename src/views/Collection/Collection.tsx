@@ -64,6 +64,14 @@ const Collection = () => {
     [zones, selectedZoneIds],
   );
 
+  useEffect(() => {
+    if (selectedZoneValue || zoneOptions.length !== 1) {
+      return;
+    }
+
+    setSelectedZoneValue(zoneOptions[0].value);
+  }, [selectedZoneValue, zoneOptions]);
+
   const loadCollectionData = useCallback(async () => {
     if (!token || !id) {
       setErrorMessage("Impossible de charger la collecte.");
@@ -189,11 +197,6 @@ const Collection = () => {
 
     if (!title.trim()) {
       setErrorMessage("Le titre de la collecte est requis.");
-      return;
-    }
-
-    if (slots.length === 0) {
-      setErrorMessage("Au moins un creneau est requis.");
       return;
     }
 
@@ -441,7 +444,7 @@ const Collection = () => {
         <Button
           type="button"
           onClick={() => void handleEdit()}
-          disabled={isSubmitting || !title.trim() || slots.length === 0}
+          disabled={isSubmitting || !title.trim()}
           className="border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
         >
           {isSubmitting ? "Edition..." : "Editer"}
