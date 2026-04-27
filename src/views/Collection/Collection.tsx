@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/axiosConfig";
 import {
@@ -9,6 +9,7 @@ import {
   type SelectOption,
 } from "../../components/generic";
 import { useAuth } from "../../contexts/AuthContext";
+import { importVolunteersFromExcel } from "../../helpers/FileHelper";
 import type { CollectionDetails } from "../../types/Collection";
 import type { SlotFormData } from "../../types/Slot";
 import type { Zone } from "../../types/Zone";
@@ -31,6 +32,7 @@ const Collection = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { token } = useAuth();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [title, setTitle] = useState("");
   const [isActive, setIsActive] = useState(true);
@@ -189,6 +191,33 @@ const Collection = () => {
     return `${slot.startDate} ${slot.startTime}-${slot.endTime}`;
   };
 
+  const handleImportVolunteers = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+
+    if (!file || !token || !id) {
+      return;
+    }
+
+    const collectionId = Number(id);
+
+    const result = await importVolunteersFromExcel(file, collectionId, token);
+
+    if (result.success) {
+      setErrorMessage("");
+      // Reload the collection data to see the newly imported volunteers
+      await loadCollectionData();
+    } else {
+      setErrorMessage(result.message);
+    }
+
+    // Reset the file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleEdit = async () => {
     if (!token || !id) {
       setErrorMessage("Impossible de modifier la collecte.");
@@ -280,10 +309,18 @@ const Collection = () => {
         <div className="flex items-end">
           <Button
             type="button"
+            onClick={() => fileInputRef.current?.click()}
             className="h-11 w-full border border-[var(--color-primary)] bg-white px-4 text-sm text-[var(--color-primary)] sm:w-auto"
           >
-            Importer les benevoles reguliers
+            Importer les bénévoles réguliers
           </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".xlsx,.xls"
+            onChange={handleImportVolunteers}
+            className="hidden"
+          />
         </div>
       </div>
 

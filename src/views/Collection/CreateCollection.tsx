@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axiosConfig";
 import {
@@ -9,6 +9,7 @@ import {
   type SelectOption,
 } from "../../components/generic";
 import { useAuth } from "../../contexts/AuthContext";
+import { importVolunteersFromExcel } from "../../helpers/FileHelper";
 import type { Collection } from "../../types/Collection";
 import type { Slot } from "../../types/Slot";
 import type { Zone } from "../../types/Zone";
@@ -23,6 +24,7 @@ type SlotFormData = {
 const CreateCollection = () => {
   const navigate = useNavigate();
   const { token } = useAuth();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [title, setTitle] = useState("");
   const [isActive, setIsActive] = useState(true);
@@ -122,6 +124,27 @@ const CreateCollection = () => {
     return `${slot.startDate} ${slot.startTime}-${slot.endTime}`;
   };
 
+  const handleImportVolunteers = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    // Note: We need a collection ID, so this will only work after creation
+    // For CreateCollection, we'll show a message
+    setErrorMessage(
+      "Vous devez d'abord créer la collecte avant d'importer les bénévoles.",
+    );
+
+    // Reset the file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleCreate = async () => {
     if (!title.trim()) {
       setErrorMessage("Le titre de la collecte est requis.");
@@ -205,10 +228,18 @@ const CreateCollection = () => {
         <div className="flex items-end">
           <Button
             type="button"
+            onClick={() => fileInputRef.current?.click()}
             className="h-11 w-full border border-[var(--color-primary)] bg-white px-4 text-sm text-[var(--color-primary)] sm:w-auto"
           >
             Importer les bénévoles réguliers
           </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".xlsx,.xls"
+            onChange={handleImportVolunteers}
+            className="hidden"
+          />
         </div>
       </div>
 
