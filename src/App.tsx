@@ -25,6 +25,7 @@ import UserEdit from "./views/User/User";
 import Users from "./views/User/Users";
 import Zone from "./views/Zone/Zone";
 import Zones from "./views/Zone/Zones";
+import ErrorView from "./views/Error";
 import LoginPage from "./views/Login";
 import "./App.css";
 
@@ -71,6 +72,7 @@ function App() {
         <Route path="/form/success" element={<SuccessForm />} />
         <Route path="/form/:id" element={<FormPathRedirect />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/error" element={<ErrorView />} />
         <Route
           path="/"
           element={
