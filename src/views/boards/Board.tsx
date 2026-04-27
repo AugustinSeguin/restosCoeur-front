@@ -72,7 +72,9 @@ const Board = () => {
   const [board, setBoard] = useState<BoardCollection | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [savingUserId, setSavingUserId] = useState<number | null>(null);
+  const [isSendingNotifications, setIsSendingNotifications] = useState(false);
   const [selectedStores, setSelectedStores] = useState<Record<string, string>>(
     {},
   );
@@ -197,6 +199,7 @@ const Board = () => {
 
     setSavingUserId(user.id);
     setErrorMessage("");
+    setSuccessMessage("");
 
     const answeredSlots = board.slots.filter((slot) =>
       user.userAnswers.some((answer) => answer.slotId === slot.id),
@@ -267,6 +270,35 @@ const Board = () => {
     }
   };
 
+  const sendNotifications = async () => {
+    if (!token || !board) {
+      setErrorMessage("Authentification requise.");
+      return;
+    }
+
+    setIsSendingNotifications(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      await api.post(
+        `/collections/${board.id}/notifications`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setSuccessMessage("Notifications envoyees avec succes.");
+    } catch {
+      setErrorMessage("Erreur lors de l'envoi des notifications.");
+    } finally {
+      setIsSendingNotifications(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <section className="mx-auto w-full max-w-[95vw] rounded-2xl border-2 border-[var(--color-primary)]/45 bg-[var(--bg-color)]/70 p-4 sm:p-8">
@@ -297,6 +329,12 @@ const Board = () => {
       {errorMessage ? (
         <p className="m-0 rounded-lg border border-[var(--color-error)]/50 bg-[var(--color-error)]/10 px-3 py-2 text-sm text-[var(--color-error)]">
           {errorMessage}
+        </p>
+      ) : null}
+
+      {successMessage ? (
+        <p className="m-0 rounded-lg border border-[var(--color-green)]/50 bg-[var(--color-green)]/10 px-3 py-2 text-sm text-[var(--color-green)]">
+          {successMessage}
         </p>
       ) : null}
 
@@ -388,12 +426,13 @@ const Board = () => {
           <div className="flex justify-end">
             <Button
               type="button"
-              onClick={() => {
-                console.log("Envoyer les notifications", board.id);
-              }}
+              onClick={() => void sendNotifications()}
+              disabled={isSendingNotifications}
               className="w-full sm:w-auto"
             >
-              Envoyer les notifications
+              {isSendingNotifications
+                ? "Envoi des notifications..."
+                : "Envoyer les notifications"}
             </Button>
           </div>
         </>
