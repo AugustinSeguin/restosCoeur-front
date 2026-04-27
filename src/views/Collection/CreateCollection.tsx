@@ -97,10 +97,6 @@ const CreateCollection = () => {
     }
   };
 
-  const removeZone = (zoneId: number) => {
-    setSelectedZoneIds(selectedZoneIds.filter((id) => id !== zoneId));
-  };
-
   const addSlot = () => {
     if (
       currentSlot.startDate &&

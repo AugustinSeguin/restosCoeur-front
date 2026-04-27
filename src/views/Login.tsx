@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import api from "../api/axiosConfig";
 import { Button, TextInput } from "../components/generic";
 import { useAuth } from "../contexts/AuthContext";
