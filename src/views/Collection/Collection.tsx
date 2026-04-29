@@ -207,15 +207,23 @@ const Collection = () => {
         responseType: "blob",
       });
 
+      const contentTypeHeader = response.headers["content-type"];
+      const contentType =
+        typeof contentTypeHeader === "string"
+          ? contentTypeHeader
+          : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
       const blob = new Blob([response.data], {
-        type:
-          response.headers["content-type"] ||
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        type: contentType,
       });
 
       const downloadUrl = globalThis.URL.createObjectURL(blob);
       const link = document.createElement("a");
-      const contentDisposition = response.headers["content-disposition"] ?? "";
+      const contentDispositionHeader = response.headers["content-disposition"];
+      const contentDisposition =
+        typeof contentDispositionHeader === "string"
+          ? contentDispositionHeader
+          : "";
       const filenameMatch = /filename=\"?([^\"]+)\"?/i.exec(contentDisposition);
       const filename = filenameMatch?.[1] || `collection_${id}_users.xlsx`;
 
