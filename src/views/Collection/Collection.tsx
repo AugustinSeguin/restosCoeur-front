@@ -191,6 +191,43 @@ const Collection = () => {
     return `${slot.startDate} ${slot.startTime}-${slot.endTime}`;
   };
 
+  const handleDownloadVolunteers = async () => {
+    if (!token || !id) {
+      setErrorMessage("Impossible de télécharger les bénévoles.");
+      return;
+    }
+
+    setErrorMessage("");
+
+    try {
+      const response = await api.get(`/collections/${id}/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: "blob",
+      });
+
+      const blob = new Blob([response.data], {
+        type:
+          response.headers["content-type"] ||
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      const downloadUrl = globalThis.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const contentDisposition = response.headers["content-disposition"] ?? "";
+      const filenameMatch = /filename=\"?([^\"]+)\"?/i.exec(contentDisposition);
+      const filename = filenameMatch?.[1] || `collection_${id}_users.xlsx`;
+
+      link.href = downloadUrl;
+      link.download = filename;
+      link.click();
+      globalThis.URL.revokeObjectURL(downloadUrl);
+    } catch {
+      setErrorMessage("Erreur lors du téléchargement des bénévoles.");
+    }
+  };
+
   const handleImportVolunteers = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -471,6 +508,13 @@ const Collection = () => {
       ) : null}
 
       <div className="flex justify-center gap-3">
+        <Button
+          type="button"
+          className="border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
+          onClick={() => void handleDownloadVolunteers()}
+        >
+          Télécharger les bénévoles en Excel
+        </Button>
         <Button
           type="button"
           className="border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
