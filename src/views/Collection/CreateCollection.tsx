@@ -9,7 +9,6 @@ import {
   type SelectOption,
 } from "../../components/generic";
 import { useAuth } from "../../contexts/AuthContext";
-import { importVolunteersFromExcel } from "../../helpers/FileHelper";
 import type { Collection } from "../../types/Collection";
 import type { Slot } from "../../types/Slot";
 import type { Zone } from "../../types/Zone";
