@@ -69,8 +69,9 @@ const Collections = () => {
     );
   }, [collections, searchQuery]);
 
-  const copyFormUrl = async (formUrl: string, id: number) => {
+  const copyFormUrl = async (id: number) => {
     try {
+      let formUrl = `${window.location.origin}/form?collectionId=${id}`;
       await globalThis.navigator.clipboard.writeText(formUrl);
       setCopiedId(id);
     } catch {
@@ -132,7 +133,7 @@ const Collections = () => {
                 type="button"
                 className="w-full min-w-28 border border-[var(--color-primary)] bg-white text-[var(--color-primary)] sm:w-auto"
                 onClick={() =>
-                  void copyFormUrl(collection.formUrl, collection.id)
+                  void copyFormUrl(collection.id)
                 }
               >
                 {copiedId === collection.id ? "Lien copie" : "Copier lien"}

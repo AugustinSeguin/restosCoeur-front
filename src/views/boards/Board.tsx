@@ -47,16 +47,19 @@ type BoardCollection = Collection & {
 const formatSlotLabel = (slot: SlotWithStores) => {
   const start = new Date(slot.startAt);
   const end = new Date(slot.endAt);
-  const date = start.toLocaleDateString("fr-FR", {
+  const date = start.toLocaleDateString(undefined, {
     day: "2-digit",
     month: "2-digit",
+    timeZone: "UTC",
   });
-  const timeRange = `${start.toLocaleTimeString("fr-FR", {
+  const timeRange = `${start.toLocaleTimeString(undefined, {
     hour: "2-digit",
     minute: "2-digit",
-  })}-${end.toLocaleTimeString("fr-FR", {
+    timeZone: "UTC",
+  })}-${end.toLocaleTimeString(undefined, {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "UTC",
   })}`;
 
   return `${date} - ${timeRange}`;
