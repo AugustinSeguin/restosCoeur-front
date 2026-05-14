@@ -23,6 +23,13 @@ function Navbar({ onLogout }: Readonly<NavbarProps>) {
     <header className="sticky top-0 z-30 w-full border-b border-[var(--color-primary)] bg-[var(--bg-color)]">
       <div className="mx-auto flex w-full items-center justify-between px-5 py-3">
         <div className="flex items-center gap-4">
+
+          <img
+            src="/logo.svg"
+            alt="Logo Restos du Coeur"
+            className="h-20 w-20 rounded-full object-cover"
+          />
+
           <Link
             to="/board"
             className="text-base font-bold text-[var(--color-primary)] no-underline"
