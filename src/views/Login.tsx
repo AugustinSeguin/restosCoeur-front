@@ -45,6 +45,12 @@ const LoginPage = () => {
   return (
     <main className="grid min-h-screen place-items-center px-5 py-8">
       <div className="grid w-full max-w-md gap-4 rounded-md border-2 border-[var(--color-primary)] bg-[color-mix(in_srgb,var(--bg-color)_85%,white_15%)] p-6 text-center">
+        <img
+          src="/logo.svg"
+          alt="Logo Restos du Coeur"
+          className="mx-auto h-40 w-40"
+        />
+
         <h1 className="m-0 text-3xl font-semibold text-[var(--color-primary)]">
           Connexion
         </h1>
