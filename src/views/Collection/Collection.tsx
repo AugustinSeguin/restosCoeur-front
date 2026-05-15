@@ -200,7 +200,7 @@ const Collection = () => {
     setErrorMessage("");
 
     try {
-      const response = await api.get(`/collections/${id}/users`, {
+      const response = await api.get(`/exportCollection/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -521,7 +521,7 @@ const Collection = () => {
           className="border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
           onClick={() => void handleDownloadVolunteers()}
         >
-          Télécharger les bénévoles en Excel
+          Télécharger les assignations
         </Button>
         <Button
           type="button"

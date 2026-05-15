@@ -30,6 +30,10 @@
     box-shadow 0.2s ease;
 }
 
+.ui-input[type="date"] {
+  color-scheme: light;
+}
+
 .ui-input:focus,
 .ui-select:focus {
   border-color: var(--color-secondary);

@@ -282,9 +282,15 @@ const Form = () => {
   }
 
   return (
-    <section className="flex min-h-screen w-full flex-col items-stretch pb-6 pt-2">
+    <main className="grid min-h-screen place-items-center px-5 py-8">
+      <img
+        src="/logo.svg"
+        alt="Logo Restos du Coeur"
+        className="mx-auto h-40 w-40"
+      />
+
       <h1 className="mb-4 text-center text-3xl font-semibold text-[var(--color-primary)] sm:text-4xl">
-        Formulaire benevole
+        Formulaire bénévole Restos du Coeur
       </h1>
 
       <form
@@ -304,7 +310,7 @@ const Form = () => {
           </div>
         )}
 
-        <p className="m-0 text-center text-lg font-bold text-[var(--color-secondary)]">
+        <p className="m-0 text-center text-lg font-bold text-[var(--color-primary)]">
           {collection.title}
         </p>
 
@@ -408,11 +414,11 @@ const Form = () => {
           ))}
         </div>
 
-        <Button className="mt-2" type="submit" variant="secondary">
+        <Button className="mt-2" type="submit" variant="primary">
           SOUMETTRE
         </Button>
       </form>
-    </section>
+    </main>
   );
 };
 
