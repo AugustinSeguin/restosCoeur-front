@@ -11,14 +11,8 @@ import {
 import { useAuth } from "../../contexts/AuthContext";
 import type { Collection } from "../../types/Collection";
 import type { Slot } from "../../types/Slot";
+import type { SlotFormData } from "../../types/Slot";
 import type { Zone } from "../../types/Zone";
-
-type SlotFormData = {
-  startDate: string;
-  startTime: string;
-  endDate: string;
-  endTime: string;
-};
 
 const CreateCollection = () => {
   const navigate = useNavigate();

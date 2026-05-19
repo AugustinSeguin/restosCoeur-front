@@ -4,6 +4,19 @@ export enum UserType {
   newcomer = "newcomer",
 }
 
+export type UserUpdatePayload = {
+  lastName: string;
+  firstName: string;
+  birthdate: string;
+  codePostal: string;
+  email: string;
+  phoneNumber: string;
+  password?: string;
+  isActive: boolean;
+  isAdmin: boolean;
+  type: UserType;
+};
+
 export interface User {
   id: number;
   lastName: string;

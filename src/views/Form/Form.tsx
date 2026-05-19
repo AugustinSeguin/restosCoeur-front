@@ -2,42 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import api from "../../api/axiosConfig";
 import { Button, Checkbox, TextInput } from "../../components/generic";
-
-type CollectionSlot = {
-  id: number;
-  startAt: string;
-  endAt: string;
-  collectionId: number;
-};
-
-type CollectionZone = {
-  collectionId: number;
-  zoneId: number;
-  zone: {
-    id: number;
-    title: string;
-  };
-};
-
-type CollectionDetails = {
-  id: number;
-  title: string;
-  isActive: boolean;
-  formUrl: string;
-  slots: CollectionSlot[];
-  zones: CollectionZone[];
-};
-
-type FormValues = {
-  lastName: string;
-  firstName: string;
-  phoneNumber: string;
-  birthdate: string;
-  codePostal: string;
-  email: string;
-};
-
-type FormErrors = Partial<Record<keyof FormValues, string>>;
+import type { CollectionDetails, CollectionSlot } from "../../types/Collection";
+import type { FormErrors, FormValues } from "../../types/Form";
 
 const getCollectionIdFromUrl = () => {
   const params = new URLSearchParams(globalThis.location.search);

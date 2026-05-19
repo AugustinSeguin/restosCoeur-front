@@ -3,20 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/axiosConfig";
 import { Button, TextInput } from "../../components/generic";
 import { useAuth } from "../../contexts/AuthContext";
-import { UserType, type User } from "../../types/User";
-
-type UserUpdatePayload = {
-  lastName: string;
-  firstName: string;
-  birthdate: string;
-  codePostal: string;
-  email: string;
-  phoneNumber: string;
-  password?: string;
-  isActive: boolean;
-  isAdmin: boolean;
-  type: UserType;
-};
+import { UserType, type User, type UserUpdatePayload } from "../../types/User";
 
 const UserEdit = () => {
   const navigate = useNavigate();

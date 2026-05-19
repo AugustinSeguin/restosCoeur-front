@@ -8,41 +8,14 @@ import {
 } from "../../components/generic";
 import { useAuth } from "../../contexts/AuthContext";
 import type {
-  Assignment,
   CreateAssignmentPayload,
   UpdateAssignmentPayload,
 } from "../../types/Assignment";
-import type { Collection } from "../../types/Collection";
-import type { Store } from "../../types/Store";
-import type { User } from "../../types/User";
-
-type UserAnswer = {
-  id: number;
-  userId: number;
-  collectionId: number;
-  slotId: number;
-  zoneId: number;
-  createdAt: string;
-  updatedAt: string;
-};
-
-type SlotWithStores = {
-  id: number;
-  startAt: string;
-  endAt: string;
-  collectionId: number;
-  openStores: Store[];
-};
-
-type BoardUser = User & {
-  assignments: Assignment[];
-  userAnswers: UserAnswer[];
-};
-
-type BoardCollection = Collection & {
-  users: BoardUser[];
-  slots: SlotWithStores[];
-};
+import type {
+  BoardCollection,
+  BoardUser,
+  SlotWithStores,
+} from "../../types/Board";
 
 const formatSlotLabel = (slot: SlotWithStores) => {
   const start = new Date(slot.startAt);

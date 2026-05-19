@@ -1,4 +1,5 @@
 import api from "../api/axiosConfig";
+import axios from "axios";
 
 type ImportUsersResponse = {
   success: boolean;
@@ -85,6 +86,27 @@ export const importVolunteersFromExcel = async (
       usersCount: response.data.usersCount,
     };
   } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const serverMessage =
+        (
+          error.response?.data as
+            | { message?: string; error?: string }
+            | undefined
+        )?.message ||
+        (
+          error.response?.data as
+            | { message?: string; error?: string }
+            | undefined
+        )?.error;
+
+      if (serverMessage) {
+        return {
+          success: false,
+          message: serverMessage,
+        };
+      }
+    }
+
     if (error instanceof Error) {
       return {
         success: false,

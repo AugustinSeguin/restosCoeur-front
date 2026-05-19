@@ -23,7 +23,6 @@ function Navbar({ onLogout }: Readonly<NavbarProps>) {
     <header className="sticky top-0 z-30 w-full border-b border-[var(--color-primary)] bg-[var(--bg-color)]">
       <div className="mx-auto flex w-full items-center justify-between px-5 py-3">
         <div className="flex items-center gap-4">
-
           <img
             src="/logo.svg"
             alt="Logo Restos du Coeur"
@@ -73,8 +72,11 @@ function Navbar({ onLogout }: Readonly<NavbarProps>) {
               {item.label}
             </NavLink>
           ))}
+          <a href="/manual.pdf" target="_blank" rel="noopener noreferrer" className="rounded-md px-3 py-2 text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-secondary)]/20">
+            Manuel d'utilisation
+          </a>
           <Button type="button" variant="secondary" onClick={onLogout}>
-            Logout
+            Se déconnecter
           </Button>
         </nav>
       </div>
@@ -114,7 +116,17 @@ function Navbar({ onLogout }: Readonly<NavbarProps>) {
               onLogout();
             }}
           >
-            Logout
+            Se déconnecter
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => {
+              setIsOpen(false);
+              onLogout();
+            }}
+          >
+            Se déconnecter
           </Button>
         </nav>
       ) : null}
