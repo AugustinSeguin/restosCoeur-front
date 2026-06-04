@@ -72,7 +72,12 @@ function Navbar({ onLogout }: Readonly<NavbarProps>) {
               {item.label}
             </NavLink>
           ))}
-          <a href="/manual.pdf" target="_blank" rel="noopener noreferrer" className="rounded-md px-3 py-2 text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-secondary)]/20">
+          <a
+            href="/manual.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-md px-3 py-2 text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-secondary)]/20"
+          >
             Manuel d'utilisation
           </a>
           <Button type="button" variant="secondary" onClick={onLogout}>
@@ -108,16 +113,14 @@ function Navbar({ onLogout }: Readonly<NavbarProps>) {
               {item.label}
             </NavLink>
           ))}
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => {
-              setIsOpen(false);
-              onLogout();
-            }}
+          <a
+            href="/manual.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-md px-3 py-2 text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-secondary)]/20"
           >
-            Se déconnecter
-          </Button>
+            Manuel d'utilisation
+          </a>
           <Button
             type="button"
             variant="secondary"
