@@ -51,7 +51,7 @@ const CreateCollection = () => {
   );
 
   useEffect(() => {
-    if (selectedZoneValue || zoneOptions.length !== 1) {
+    if (selectedZoneValue || zoneOptions.length === 0) {
       return;
     }
 
@@ -90,6 +90,10 @@ const CreateCollection = () => {
       setSelectedZoneIds([...selectedZoneIds, zoneId]);
       setSelectedZoneValue("");
     }
+  };
+
+  const removeSelectedZone = (zoneId: number) => {
+    setSelectedZoneIds((prev) => prev.filter((id) => id !== zoneId));
   };
 
   const addSlot = () => {
@@ -254,7 +258,16 @@ const CreateCollection = () => {
             {selectedZones.map((zone) => (
               <p
                 key={zone.id}
-                className="m-0 rounded-lg border-2 border-[var(--color-primary)] bg-white px-3 py-1 text-sm text-[var(--color-primary)]"
+                role="button"
+                tabIndex={0}
+                onClick={() => removeSelectedZone(zone.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    removeSelectedZone(zone.id);
+                  }
+                }}
+                className="m-0 cursor-pointer rounded-lg border-2 border-[var(--color-primary)] bg-white px-3 py-1 text-sm text-[var(--color-primary)]"
               >
                 {zone.title}
               </p>
