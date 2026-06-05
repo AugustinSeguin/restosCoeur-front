@@ -278,7 +278,7 @@ const Collection = () => {
     }
 
     try {
-      await api.delete(`/collection/${id}`, {
+      await api.delete(`/collections/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -548,7 +548,7 @@ const Collection = () => {
           className="border border-[var(--color-secondary)] bg-white px-8 py-2 text-[var(--color-black)]"
           onClick={() => void handleDeleteCollection()}
         >
-          Supprimer la collectie
+          Supprimer la collecte
         </Button>
         <Button
           type="button"
