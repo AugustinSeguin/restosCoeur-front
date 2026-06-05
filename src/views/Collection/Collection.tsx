@@ -542,24 +542,24 @@ const Collection = () => {
         </p>
       ) : null}
 
-      <div className="flex justify-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:justify-center gap-3">
         <Button
           type="button"
-          className="border border-[var(--color-secondary)] bg-white px-8 py-2 text-[var(--color-black)]"
+          className="w-full sm:w-auto border border-[var(--color-secondary)] bg-white px-8 py-2 text-[var(--color-black)]"
           onClick={() => void handleDeleteCollection()}
         >
           Supprimer la collecte
         </Button>
         <Button
           type="button"
-          className="border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
+          className="w-full sm:w-auto border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
           onClick={() => void handleDownloadVolunteers()}
         >
           Télécharger les assignations
         </Button>
         <Button
           type="button"
-          className="border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
+          className="w-full sm:w-auto border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
           onClick={() => navigate("/collections")}
         >
           Retour
@@ -568,7 +568,7 @@ const Collection = () => {
           type="button"
           onClick={() => void handleEdit()}
           disabled={isSubmitting || !title.trim()}
-          className="border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
+          className="w-full sm:w-auto border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
         >
           {isSubmitting ? "Edition..." : "Editer"}
         </Button>
