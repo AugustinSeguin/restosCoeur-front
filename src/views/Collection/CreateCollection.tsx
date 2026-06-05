@@ -20,6 +20,7 @@ const CreateCollection = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [isActive, setIsActive] = useState(true);
   const [selectedZoneIds, setSelectedZoneIds] = useState<number[]>([]);
   const [slots, setSlots] = useState<SlotFormData[]>([]);
@@ -157,6 +158,7 @@ const CreateCollection = () => {
         "/collections",
         {
           title: title.trim(),
+          description: description.trim(),
           isActive,
           formUrl: `https://forms.example.com/${title.toLowerCase().replaceAll(/\s+/g, "-")}`,
         },
@@ -220,6 +222,12 @@ const CreateCollection = () => {
           placeholder="Titre de la collecte"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
+        />
+        <TextInput
+          label="Description"
+          placeholder="Description de la collecte"
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
         />
 
         <div className="flex items-end">

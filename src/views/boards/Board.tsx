@@ -323,6 +323,9 @@ const Board = () => {
                   <th className="w-52 border border-[var(--color-secondary)]/40 bg-[var(--color-secondary)]/10 px-3 py-3 text-left text-sm font-semibold text-[var(--color-primary)]">
                     Bénévole
                   </th>
+                  <th className="w-52 border border-[var(--color-secondary)]/40 bg-[var(--color-secondary)]/10 px-3 py-3 text-left text-sm font-semibold text-[var(--color-primary)]">
+                    Préférences
+                  </th>
                   {board.slots.map((slot) => (
                     <th
                       key={slot.id}
@@ -339,9 +342,14 @@ const Board = () => {
 
               <tbody>
                 {filteredUsers.map((user) => (
+                  
                   <tr key={user.id}>
                     <td className="border border-[var(--color-secondary)]/35 px-3 py-2 align-top text-sm font-medium text-[var(--color-text)]">
                       {user.firstName} {user.lastName}
+                    </td>
+
+                    <td className="border border-[var(--color-secondary)]/35 px-3 py-2 align-top text-sm font-medium text-[var(--color-text)]">
+                      {user.userAnswers.length > 0 ? user.userAnswers[0].comment : null}
                     </td>
 
                     {board.slots.map((slot) => {

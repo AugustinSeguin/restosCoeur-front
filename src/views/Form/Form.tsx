@@ -101,6 +101,7 @@ const Form = () => {
     birthdate: "",
     codePostal: "",
     email: "",
+    comment: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [selectedSlotIds, setSelectedSlotIds] = useState<number[]>([]);
@@ -208,6 +209,7 @@ const Form = () => {
       collecteId: collectionId,
       slotIds: selectedSlotIds,
       zoneIds: selectedZoneIds,
+      comment: values.comment,
     };
 
     api
@@ -276,8 +278,12 @@ const Form = () => {
           </div>
         )}
 
-        <p className="m-0 text-center text-lg font-bold text-[var(--color-primary)]">
+        <h2 className="m-0 text-center text-lg font-bold text-[var(--color-primary)]">
           {collection.title}
+        </h2>
+
+        <p className="m-0 text-center text-base text-[var(--color-primary)]">
+          {collection.description}
         </p>
 
         <TextInput
@@ -379,6 +385,15 @@ const Form = () => {
             </div>
           ))}
         </div>
+
+        <TextInput
+          label="Commentaire"
+          value={values.comment}
+          onChange={(event) =>
+            handleInputChange("comment", event.target.value)
+          }
+          helperText={errors.comment}
+        />
 
         <Button className="mt-2" type="submit" variant="primary">
           SOUMETTRE

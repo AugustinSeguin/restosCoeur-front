@@ -9,6 +9,7 @@ export type UserAnswer = {
   collectionId: number;
   slotId: number;
   zoneId: number;
+  comment?: string | null;
   createdAt: string;
   updatedAt: string;
 };

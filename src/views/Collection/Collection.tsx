@@ -35,6 +35,7 @@ const Collection = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [isActive, setIsActive] = useState(true);
   const [formUrl, setFormUrl] = useState("");
   const [userIds, setUserIds] = useState<number[]>([]);
@@ -100,6 +101,7 @@ const Collection = () => {
       const details = collectionResponse.data;
 
       setTitle(details.title);
+      setDescription(details.description ?? "");
       setIsActive(details.isActive);
       setFormUrl(details.formUrl);
       setUserIds(details.users?.map((user) => user.id) ?? []);
@@ -313,6 +315,7 @@ const Collection = () => {
         `/collections/${id}`,
         {
           title: title.trim(),
+          description: description.trim(),
           isActive,
           formUrl:
             formUrl ||
@@ -380,6 +383,12 @@ const Collection = () => {
           placeholder="Titre de la collecte"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
+        />
+        <TextInput
+          label="Description"
+          placeholder="Description de la collecte"
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
         />
 
         <div className="flex items-end">
