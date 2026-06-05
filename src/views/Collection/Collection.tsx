@@ -263,6 +263,33 @@ const Collection = () => {
     }
   };
 
+  const handleDeleteCollection = async () => {
+    if (!token || !id) {
+      setErrorMessage("Authentification requise pour supprimer la collecte.");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Êtes-vous sûr de vouloir supprimer la collecte "${title}" ?`,
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await api.delete(`/collection/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      navigate("/collections", { replace: true });
+    } catch {
+      setErrorMessage("Erreur lors de la suppression de la collecte.");
+    }
+  };
+
   const handleEdit = async () => {
     if (!token || !id) {
       setErrorMessage("Impossible de modifier la collecte.");
@@ -516,6 +543,13 @@ const Collection = () => {
       ) : null}
 
       <div className="flex justify-center gap-3">
+        <Button
+          type="button"
+          className="border border-[var(--color-secondary)] bg-white px-8 py-2 text-[var(--color-black)]"
+          onClick={() => void handleDeleteCollection()}
+        >
+          Supprimer la collectie
+        </Button>
         <Button
           type="button"
           className="border border-[var(--color-primary)] bg-white px-8 py-2 text-[var(--color-primary)]"
