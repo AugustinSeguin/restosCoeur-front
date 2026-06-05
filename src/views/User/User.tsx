@@ -156,6 +156,44 @@ const UserEdit = () => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    if (!token || !id) {
+      setErrorMessage("Authentification requise pour supprimer le compte.");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Etes-vous sûr de vouloir supprimer votre compte ?",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      await api.delete(`/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (isOwnProfile) {
+        // Clear local user and redirect to login
+        setUser(null as unknown as User);
+        navigate("/login", { replace: true });
+      } else {
+        navigate("/board", { replace: true });
+      }
+    } catch {
+      setErrorMessage("Erreur lors de la suppression du compte.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <section className="mx-auto w-full max-w-5xl rounded-2xl border-2 border-[var(--color-primary)]/45 bg-[var(--bg-color)]/70 p-6">
@@ -234,6 +272,13 @@ const UserEdit = () => {
           className="rounded-lg border border-[var(--color-primary)] bg-white px-6 py-2 font-medium text-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary)]/5"
         >
           Annuler
+        </Button>
+        <Button
+          type="button"
+          onClick={() => void handleDeleteAccount()}
+          className="rounded-lg border border-[var(--color-secondary)] bg-white px-6 py-2 font-medium text-[var(--color-black)] transition-colors hover:bg-[var(--color-secondary)]/5"
+        >
+          Supprimer mon profil
         </Button>
       </div>
     </section>
